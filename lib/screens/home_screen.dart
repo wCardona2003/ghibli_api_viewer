@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Studio Ghibli Films')),
+      backgroundColor: Colors.white24, // Cambia el color de fondo aquí
       body: FutureBuilder(
         future: apiService.fetchFilms(),
         builder: (context, snapshot) {

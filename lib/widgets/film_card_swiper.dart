@@ -13,12 +13,10 @@ class FilmCardSwiper extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: size.height * 0.5,  // El swiper ocupará el 50% de la pantalla
+      height: size.height * 0.5, // 50% de la pantalla
       child: Swiper(
+        layout: SwiperLayout.DEFAULT,
         itemCount: films.length,
-        layout: SwiperLayout.STACK,
-        itemWidth: size.width * 0.6,
-        itemHeight: size.height * 0.4,
         itemBuilder: (_, int index) {
           final film = films[index];
 
@@ -30,20 +28,11 @@ class FilmCardSwiper extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Stack(
                 children: [
-                  // Imagen del póster de la película
                   Image.network(
                     film.imageUrl,
                     fit: BoxFit.cover,
                     width: double.infinity,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(child: CircularProgressIndicator());
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(child: Icon(Icons.error));
-                    },
                   ),
-                  // Sombra oscura para mejorar la legibilidad del título
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -53,14 +42,13 @@ class FilmCardSwiper extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Título de la película en la parte inferior
                   Positioned(
                     bottom: 10,
                     left: 10,
                     right: 10,
                     child: Text(
                       film.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -74,8 +62,15 @@ class FilmCardSwiper extends StatelessWidget {
             ),
           );
         },
-        pagination: SwiperPagination(),
-        control: SwiperControl(),  // Flechas de navegación
+        itemWidth: size.width * 0.6,
+        itemHeight: size.height * 0.4,
+        viewportFraction: 0.7, // Ajusta el tamaño de las tarjetas
+        scale: 0.9, // Reduce un poco el tamaño de las tarjetas inactivas
+        pagination: const SwiperPagination(
+          margin: EdgeInsets.only(bottom: 0), // Ajusta la distancia entre la paginación y las imágenes
+        ),
+        control: SwiperControl(),
+        loop: true,
       ),
     );
   }

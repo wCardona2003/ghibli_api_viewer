@@ -24,7 +24,7 @@ class FilmSlider extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: Colors.blueGrey,
+                color: Colors.amber,
               ),
               child: Center(
                 child: Text(
