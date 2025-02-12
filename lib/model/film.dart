@@ -1,3 +1,4 @@
+
 class Film {
   final String id;
   final String title;
@@ -5,7 +6,7 @@ class Film {
   final String director;
   final String producer;
   final String releaseDate;
-  final String imageUrl;  // URL de la imagen (intentaremos conseguirla de otra API)
+  final String imageUrl;
 
   Film({
     required this.id,
@@ -17,7 +18,7 @@ class Film {
     required this.imageUrl,
   });
 
-  factory Film.fromJson(Map<String, dynamic> json) {
+  factory Film.fromJson(Map<String, dynamic> json, String? imageUrl) {
     return Film(
       id: json['id'],
       title: json['title'],
@@ -25,7 +26,7 @@ class Film {
       director: json['director'],
       producer: json['producer'],
       releaseDate: json['release_date'],
-      imageUrl: '',  // Vacío para añadir URL
+      imageUrl: imageUrl ?? 'https://via.placeholder.com/300x400',
     );
   }
 }

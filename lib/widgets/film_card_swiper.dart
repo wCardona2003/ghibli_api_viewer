@@ -13,7 +13,7 @@ class FilmCardSwiper extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: size.height * 0.5,  // Ajusta la altura según la pantalla
+      height: size.height * 0.5,  // El swiper ocupará el 50% de la pantalla
       child: Swiper(
         itemCount: films.length,
         layout: SwiperLayout.STACK,
@@ -28,18 +28,54 @@ class FilmCardSwiper extends StatelessWidget {
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: FadeInImage(
-                placeholder: AssetImage('assets/loading.gif'),
-                image: NetworkImage(
-                  film.imageUrl.isNotEmpty
-                      ? film.imageUrl
-                      : 'https://via.placeholder.com/300x400',
-                ),
-                fit: BoxFit.cover,
+              child: Stack(
+                children: [
+                  // Imagen del póster de la película
+                  Image.network(
+                    film.imageUrl,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(child: CircularProgressIndicator());
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(child: Icon(Icons.error));
+                    },
+                  ),
+                  // Sombra oscura para mejorar la legibilidad del título
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                      ),
+                    ),
+                  ),
+                  // Título de la película en la parte inferior
+                  Positioned(
+                    bottom: 10,
+                    left: 10,
+                    right: 10,
+                    child: Text(
+                      film.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
             ),
           );
         },
+        pagination: SwiperPagination(),
+        control: SwiperControl(),  // Flechas de navegación
       ),
     );
   }
